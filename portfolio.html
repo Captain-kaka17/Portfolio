@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Erick Salus Lucas — Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  :root{
+    --ink:#10202B;
+    --ink-soft:#233A47;
+    --paper:#F3F6F5;
+    --panel:#FFFFFF;
+    --accent:#D9782D;
+    --accent-soft:#F4D6B8;
+    --status:#2F7A63;
+    --muted:#5B717C;
+    --line:#DCE2E0;
+    --mono:'IBM Plex Mono', monospace;
+    --sans:'IBM Plex Sans', sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; scroll-padding-top:76px; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+  }
+
+  h1,h2,h3,h4,.mono{ font-family:var(--mono); }
+
+  a{ color:var(--ink); text-decoration:none; }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .container-narrow{ max-width:900px; margin:0 auto; }
+  .measure{ max-width:62ch; }
+
+  /* ---------- Desktop navbar ---------- */
+  .cv-navbar{
+    background:rgba(243,246,245,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    height:64px;
+  }
+  .cv-navbar .brand{
+    font-family:var(--mono);
+    font-size:0.95rem;
+    color:var(--ink);
+    display:flex; align-items:center; gap:2px;
+  }
+  .cv-navbar .brand .cursor{
+    display:inline-block; width:8px; height:1.1em; background:var(--accent);
+    animation:blink 1.1s steps(1) infinite; margin-left:2px;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .cv-nav-link{
+    font-family:var(--mono);
+    font-size:0.88rem;
+    color:var(--muted);
+    padding:6px 2px;
+    margin:0 14px;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .cv-nav-link:hover{ color:var(--ink); }
+  .cv-nav-link.active{ color:var(--ink); border-bottom-color:var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:150px 0 90px;
+    background-image: radial-gradient(var(--line) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: -6px -6px;
+  }
+
+  .hero-tags{ display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 26px; }
+  .hero-tag{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    padding:5px 12px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-soft);
+    background:var(--panel);
+  }
+
+  .hero-name{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin-bottom:6px;
+  }
+  .hero-lede{
+    color:var(--muted);
+    font-size:1.05rem;
+    max-width:56ch;
+  }
+
+  .terminal{
+    background:var(--ink);
+    color:#DCE7E3;
+    border-radius:6px;
+    padding:18px 20px;
+    margin:26px 0 22px;
+    max-width:560px;
+    font-family:var(--mono);
+    font-size:0.85rem;
+  }
+  .terminal .t-line{ color:#8FA6AC; margin-bottom:8px; }
+  .terminal .t-line .p1{ color:#7FD8A6; }
+  .terminal .t-line .p2{ color:#DCE7E3; }
+  .terminal .t-out{ color:#E9EEEC; min-height:3.2em; }
+  .terminal .t-out .caret{
+    display:inline-block; width:7px; height:1em; background:var(--accent);
+    vertical-align:text-bottom; animation:blink 1s steps(1) infinite;
+  }
+
+  .btn-cv-primary{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:#fff;
+    padding:10px 20px; border-radius:3px;
+    font-size:0.92rem; font-weight:500;
+    border:1px solid var(--ink);
+    transition:background .15s ease;
+  }
+  .btn-cv-primary:hover{ background:var(--ink-soft); color:#fff; }
+
+  .btn-cv-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 18px; border-radius:3px;
+    font-size:0.92rem; font-weight:500;
+    border:1px solid var(--line); color:var(--ink);
+    background:transparent;
+    transition:border-color .15s ease;
+  }
+  .btn-cv-ghost:hover{ border-color:var(--ink); color:var(--ink); }
+
+  .status-chip{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:0.82rem; color:var(--ink-soft);
+    margin-top:22px;
+  }
+  .status-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--status);
+    box-shadow:0 0 0 3px rgba(47,122,99,0.18);
+  }
+
+  .info-panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:22px 24px;
+  }
+  .info-panel dt{ font-family:var(--mono); font-size:0.72rem; color:var(--muted); margin-top:14px; }
+  .info-panel dt:first-child{ margin-top:0; }
+  .info-panel dd{ margin:2px 0 0; font-size:0.92rem; }
+  .info-panel a:hover{ color:var(--accent); }
+
+  /* ---------- Section framing ---------- */
+  section{ padding:76px 0; border-top:1px solid var(--line); }
+  .hero{ border-top:none; }
+
+  .sec-label{
+    font-family:var(--mono); font-size:0.78rem; color:var(--accent);
+    margin-bottom:8px;
+  }
+  .sec-title{
+    font-size:1.7rem; font-weight:600; margin-bottom:26px;
+  }
+
+  /* ---------- About / Education ---------- */
+  .edu-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:24px;
+  }
+  .edu-card .degree{ font-weight:600; font-size:1.02rem; }
+  .edu-card .org{ color:var(--muted); font-size:0.92rem; margin-top:2px; }
+  .edu-card .years{ font-family:var(--mono); font-size:0.8rem; color:var(--accent); margin-top:10px; }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px;
+    width:1px; background:var(--line);
+  }
+  .t-item{ position:relative; margin-bottom:42px; }
+  .t-item:last-child{ margin-bottom:0; }
+  .t-item::before{
+    content:""; position:absolute; left:-28px; top:5px;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--accent);
+  }
+  .t-date{ font-family:var(--mono); font-size:0.8rem; color:var(--muted); }
+  .t-role{ font-size:1.08rem; font-weight:600; margin-top:4px; }
+  .t-org{ color:var(--muted); font-size:0.92rem; margin-bottom:12px; }
+  .t-item ul{ margin:0; padding-left:20px; }
+  .t-item li{ margin-bottom:6px; font-size:0.95rem; }
+
+  /* ---------- Skills ---------- */
+  .skill-group{ margin-bottom:30px; }
+  .skill-group:last-child{ margin-bottom:0; }
+  .skill-group h4{
+    font-size:0.9rem; font-weight:600; color:var(--ink-soft);
+    display:flex; align-items:center; gap:10px; margin-bottom:12px;
+  }
+  .skill-group h4 i{ color:var(--accent); width:16px; text-align:center; }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:9px; }
+  .skill-tag{
+    font-size:0.86rem; padding:6px 13px;
+    border:1px solid var(--line); border-radius:3px;
+    background:var(--panel); color:var(--ink);
+  }
+
+  .soft-skills{
+    display:flex; flex-wrap:wrap; row-gap:8px; font-size:0.95rem; color:var(--ink-soft);
+  }
+  .soft-skills span:not(:last-child)::after{
+    content:"·"; color:var(--line); margin:0 12px; font-weight:700;
+  }
+
+  .lang-row{ margin-bottom:14px; }
+  .lang-row:last-child{ margin-bottom:0; }
+  .lang-row .lbl{ display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:6px; }
+  .lang-row .lbl span:last-child{ color:var(--muted); font-family:var(--mono); font-size:0.78rem; }
+  .lang-bar{ height:5px; border-radius:3px; background:var(--line); overflow:hidden; }
+  .lang-bar > i{ display:block; height:100%; background:var(--accent); border-radius:3px; }
+
+  /* ---------- Referees ---------- */
+  .ref-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:22px; height:100%;
+  }
+  .ref-card .name{ font-weight:600; font-size:1rem; }
+  .ref-card .role{ color:var(--muted); font-size:0.86rem; margin-top:2px; margin-bottom:14px; }
+  .ref-card .rline{ font-size:0.86rem; display:flex; align-items:flex-start; gap:9px; margin-bottom:7px; }
+  .ref-card .rline i{ color:var(--accent); width:14px; margin-top:3px; }
+  .ref-card .rline a{ word-break:break-word; }
+  .ref-card .rline a:hover{ color:var(--accent); }
+
+  /* ---------- Contact / footer ---------- */
+  .contact-section{ background:var(--ink); color:#E7ECEB; }
+  .contact-section .sec-title{ color:#fff; }
+  .contact-section .sec-label{ color:#F2B27E; }
+  .contact-list a{ color:#E7ECEB; display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1); font-size:0.95rem; }
+  .contact-list a:hover{ color:var(--accent); }
+  .contact-list i{ width:18px; text-align:center; color:#F2B27E; }
+  .foot-note{ font-size:0.8rem; color:#8FA6AC; margin-top:34px; font-family:var(--mono); }
+
+  /* ---------- Mobile bottom nav ---------- */
+  .bottom-nav{
+    display:none;
+    position:fixed; left:0; right:0; bottom:0; z-index:1000;
+    background:var(--panel); border-top:1px solid var(--line);
+    padding:6px 4px 8px;
+  }
+  .bottom-nav .bn-item{
+    flex:1; text-align:center; color:var(--muted);
+    font-size:0.66rem; padding:6px 2px 2px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    border-top:2px solid transparent;
+  }
+  .bottom-nav .bn-item i{ font-size:1.05rem; }
+  .bottom-nav .bn-item.active{ color:var(--accent); border-top-color:var(--accent); }
+
+  @media (max-width: 767.98px){
+    .cv-navbar{ display:none; }
+    .bottom-nav{ display:flex; }
+    body{ padding-bottom:64px; }
+    .hero{ padding:104px 0 60px; }
+    section{ padding:56px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Desktop navbar -->
+<nav class="cv-navbar d-none d-md-flex align-items-center">
+  <div class="container d-flex align-items-center justify-content-between">
+    <span class="brand">erick@lucas<span class="cursor"></span></span>
+    <div class="d-flex">
+      <a href="#home" class="cv-nav-link" data-nav>Home</a>
+      <a href="#about" class="cv-nav-link" data-nav>About</a>
+      <a href="#experience" class="cv-nav-link" data-nav>Experience</a>
+      <a href="#skills" class="cv-nav-link" data-nav>Skills</a>
+      <a href="#contact" class="cv-nav-link" data-nav>Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-7">
+        <div class="hero-tags">
+          <span class="hero-tag">Full-Stack Developer</span>
+          <span class="hero-tag">Database &amp; Systems</span>
+          <span class="hero-tag">ICT &amp; Network Support</span>
+        </div>
+        <h1 class="hero-name">Erick Salus Lucas</h1>
+        <p class="hero-lede">Computer Science graduate building web applications and keeping the systems behind them — networks, hardware, and databases — running.</p>
+
+        <div class="terminal">
+          <div class="t-line"><span class="p1">erick@lucas</span><span class="p2">:~$</span> cat profile.txt</div>
+          <p class="t-out" id="typedOut"><span class="caret"></span></p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#contact" class="btn-cv-primary"><i class="fa-solid fa-paper-plane"></i> Get in touch</a>
+          <a href="https://github.com/Captain-kaka17" target="_blank" rel="noopener" class="btn-cv-ghost"><i class="fa-brands fa-github"></i> GitHub</a>
+        </div>
+
+        <div class="status-chip"><span class="status-dot"></span> Open to opportunities in Dar es Salaam</div>
+      </div>
+
+      <div class="col-lg-5">
+        <dl class="info-panel mb-0">
+          <dt>Location</dt>
+          <dd>Kimara, Dar es Salaam, Tanzania</dd>
+          <dt>Email</dt>
+          <dd><a href="mailto:ericksalus255@gmail.com">ericksalus255@gmail.com</a></dd>
+          <dt>Phone</dt>
+          <dd>+255 614 096 801 &nbsp;/&nbsp; +255 681 939 825</dd>
+          <dt>LinkedIn</dt>
+          <dd><a href="https://linkedin.com/in/erick-lucas-5348a5415" target="_blank" rel="noopener">erick-lucas-5348a5415</a></dd>
+          <dt>GitHub</dt>
+          <dd><a href="https://github.com/Captain-kaka17" target="_blank" rel="noopener">Captain-kaka17</a></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About + Education -->
+<section id="about">
+  <div class="container">
+    <p class="sec-label">// about</p>
+    <h2 class="sec-title">About</h2>
+    <div class="row gy-5">
+      <div class="col-lg-7">
+        <p class="measure">Fresh Computer Science graduate from the National Institute of Transport (NIT), with hands-on experience in web application development, database and systems management, and ICT &amp; network support. This came through academic projects and industrial practical training in real institutions.</p>
+        <p class="measure">Comfortable across the stack — from writing PHP and JavaScript to configuring a router or diagnosing a failing hard drive. Also has working knowledge of operating systems and cybersecurity fundamentals, and is fluent in both English and Kiswahili.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="edu-card">
+          <p class="degree mb-0">Bachelor Degree in Computer Science</p>
+          <p class="org">National Institute of Transport (NIT)</p>
+          <p class="years mb-0">2023 — 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <p class="sec-label">// experience</p>
+    <h2 class="sec-title">Work Experience</h2>
+
+    <div class="timeline">
+      <div class="t-item">
+        <p class="t-date mb-0">14 Jul 2025 — 21 Sep 2025</p>
+        <p class="t-role">ICT Intern</p>
+        <p class="t-org">Dar es Salaam Tumaini University (DarTU)</p>
+        <ul>
+          <li>Assisted with development and improvement of a Moodle-based learning management system.</li>
+          <li>Performed routine computer maintenance: hardware diagnostics, component cleaning, software installation, updates, and system optimization.</li>
+          <li>Diagnosed and resolved network connectivity issues — IP conflicts, weak signal, cabling faults, misconfigured devices — restoring service with minimal downtime.</li>
+          <li>Installed, updated, and troubleshot operating systems, drivers, and application software.</li>
+          <li>Participated in embedded systems projects, assisting with setup, testing, and implementation.</li>
+          <li>Carried out preventive maintenance (dust removal, cable management, backup checks) to extend equipment lifespan.</li>
+        </ul>
+      </div>
+
+      <div class="t-item">
+        <p class="t-date mb-0">16 Jul 2024 — 30 Sep 2024</p>
+        <p class="t-role">ICT Instructor Intern</p>
+        <p class="t-org">Ndanda Secondary School</p>
+        <ul>
+          <li>Taught Computer Science and System Analysis &amp; Design.</li>
+          <li>Introduced Microsoft Office tools and problem-solving techniques.</li>
+          <li>Delivered lessons to a class of five students, form five.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="container">
+    <p class="sec-label">// skills</p>
+    <h2 class="sec-title">Core Competencies</h2>
+
+    <div class="row gy-4 mb-5">
+      <div class="col-md-6">
+        <div class="skill-group">
+          <h4><i class="fa-solid fa-code"></i> Development</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Full-Stack Web Development</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">HTML / CSS / JavaScript</span>
+            <span class="skill-tag">Git &amp; GitHub</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4><i class="fa-solid fa-database"></i> Data &amp; Systems</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Database Management (SQL, MySQL)</span>
+            <span class="skill-tag">Embedded Systems</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="skill-group">
+          <h4><i class="fa-solid fa-network-wired"></i> Network &amp; Infrastructure</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">LAN / Routers / Switches / Wi-Fi</span>
+            <span class="skill-tag">Network Troubleshooting &amp; Fault-Finding</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4><i class="fa-solid fa-shield-halved"></i> Support &amp; Security</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Computer Maintenance &amp; Hardware Troubleshooting</span>
+            <span class="skill-tag">OS Installation &amp; Software Support</span>
+            <span class="skill-tag">Cybersecurity Fundamentals</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gy-5">
+      <div class="col-lg-7">
+        <h4 class="mb-3" style="font-size:0.9rem;font-weight:600;color:var(--ink-soft);">Soft Skills</h4>
+        <div class="soft-skills">
+          <span>Leadership</span><span>Time management</span><span>Communication</span>
+          <span>Teamwork</span><span>Problem solving</span><span>Adaptability</span><span>Attention to detail</span>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <h4 class="mb-3" style="font-size:0.9rem;font-weight:600;color:var(--ink-soft);">Languages</h4>
+        <div class="lang-row">
+          <div class="lbl"><span>English</span><span>Fluent</span></div>
+          <div class="lang-bar"><i style="width:100%"></i></div>
+        </div>
+        <div class="lang-row">
+          <div class="lbl"><span>Kiswahili</span><span>Fluent</span></div>
+          <div class="lang-bar"><i style="width:100%"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Referees -->
+<section id="referees">
+  <div class="container">
+    <p class="sec-label">// referees</p>
+    <h2 class="sec-title">Referees</h2>
+    <div class="row gy-4">
+      <div class="col-md-4">
+        <div class="ref-card">
+          <p class="name mb-0">Eng. Gasper Shiliba</p>
+          <p class="role">Cybersecurity Lecturer, National Institute of Transport (NIT)</p>
+          <p class="rline"><i class="fa-solid fa-location-dot"></i> Mabibo, Dar es Salaam</p>
+          <p class="rline"><i class="fa-solid fa-phone"></i> +255 767 400 288</p>
+          <p class="rline"><i class="fa-solid fa-envelope"></i> <a href="mailto:gaspari.shiliba@nit.ac.tz">gaspari.shiliba@nit.ac.tz</a></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ref-card">
+          <p class="name mb-0">Ms. Jackline Edmund</p>
+          <p class="role">Asst. Director, DTH Company Ltd</p>
+          <p class="rline"><i class="fa-solid fa-location-dot"></i> Kinondoni, Dar es Salaam</p>
+          <p class="rline"><i class="fa-solid fa-phone"></i> +255 654 560 434</p>
+          <p class="rline"><i class="fa-solid fa-envelope"></i> <a href="mailto:edmundjackline5@gmail.com">edmundjackline5@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ref-card">
+          <p class="name mb-0">Patrick N. Ndunguru</p>
+          <p class="role">Head Master, Ndanda Secondary School</p>
+          <p class="rline"><i class="fa-solid fa-location-dot"></i> Masasi, Mtwara</p>
+          <p class="rline"><i class="fa-solid fa-phone"></i> +255 621 811 009 / +255 783 625 463</p>
+          <p class="rline"><i class="fa-solid fa-envelope"></i> <a href="mailto:patrickndunguru170@gmail.com">patrickndunguru170@gmail.com</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <p class="sec-label">// contact</p>
+    <h2 class="sec-title">Let's work together</h2>
+    <div class="row">
+      <div class="col-lg-7">
+        <p class="measure" style="color:#C7D3D1;">Available for internships, junior developer roles, and ICT / network support work in Dar es Salaam and beyond. The quickest way to reach me is by email or phone.</p>
+        <div class="contact-list">
+          <a href="mailto:ericksalus255@gmail.com"><i class="fa-solid fa-envelope"></i> ericksalus255@gmail.com</a>
+          <a href="tel:+255614096801"><i class="fa-solid fa-phone"></i> +255 614 096 801</a>
+          <a href="tel:+255681939825"><i class="fa-solid fa-phone"></i> +255 681 939 825</a>
+          <a href="https://github.com/Captain-kaka17" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> github.com/Captain-kaka17</a>
+          <a href="https://linkedin.com/in/erick-lucas-5348a5415" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> linkedin.com/in/erick-lucas-5348a5415</a>
+        </div>
+        <p class="foot-note">© 2026 Erick Salus Lucas. Built from CV.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile bottom nav -->
+<nav class="bottom-nav d-flex d-md-none">
+  <a href="#home" class="bn-item" data-nav><i class="fa-solid fa-house"></i>Home</a>
+  <a href="#about" class="bn-item" data-nav><i class="fa-solid fa-user"></i>About</a>
+  <a href="#experience" class="bn-item" data-nav><i class="fa-solid fa-briefcase"></i>Work</a>
+  <a href="#skills" class="bn-item" data-nav><i class="fa-solid fa-code"></i>Skills</a>
+  <a href="#contact" class="bn-item" data-nav><i class="fa-solid fa-envelope"></i>Contact</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Active-section highlighting for both nav bars
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('[data-nav]');
+
+  const setActive = (id) => {
+    navLinks.forEach(link => {
+      const match = link.getAttribute('href') === '#' + id;
+      link.classList.toggle('active', match);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActive(entry.target.id);
+    });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // One-time typewriter reveal for the hero terminal output
+  const summary = "Computer Science graduate skilled in full-stack development, databases, and ICT network support. Experienced with PHP, MySQL, HTML, CSS and JavaScript, plus networking, OS and cybersecurity fundamentals.";
+  const out = document.getElementById('typedOut');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion) {
+    out.textContent = summary;
+  } else {
+    let i = 0;
+    const caret = '<span class="caret"></span>';
+    const type = () => {
+      if (i <= summary.length) {
+        out.innerHTML = summary.slice(0, i) + caret;
+        i++;
+        setTimeout(type, 14);
+      }
+    };
+    type();
+  }
+</script>
+</body>
+</html>
